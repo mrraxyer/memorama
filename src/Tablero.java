@@ -184,9 +184,11 @@ public class Tablero extends JPanel {
                 System.out.println("doInBackground: imagenes son iguales");
                 aciertos++;
                 if (aciertos == (fila * col)/2) {
+                    juegoFrm.timer.stop();
                     System.out.println("doInBackground: Usted es un ganador!");
                     JOptionPane.showMessageDialog(null, "Usted es un ganador!");
-                    juegoFrm.timer.stop();
+
+                    juegoFrm.registrarGanador(juegoFrm.getSegundos(), intentos);
                 }
             } else {
                 casilla1.ocultarBandera();

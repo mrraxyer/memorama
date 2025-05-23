@@ -2,14 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JuegoFrm extends JFrame {
 
     private JLabel lblIntentos;
     private JLabel lblTiempo;
+    private JLabel lblScore;
     static Timer timer;
     private int segundos = 0;
+    private int score = 0;
     private Tablero tablero;
+
+    private List<Resultado> historial = new ArrayList<>();
 
     public JuegoFrm() {
         super("Memorama - Juego de Baraja");
@@ -21,16 +27,20 @@ public class JuegoFrm extends JFrame {
         JButton btnComenzar = new JButton("Comenzar Juego");
         btnComenzar.addActionListener(e -> iniciarJuego());
 
+        JButton btnVerPuntajes = new JButton("Ver Puntajes");
+        btnVerPuntajes.addActionListener(e -> new PuntajesFrm(historial));
+
         lblIntentos = new JLabel("Intentos: 0");
         lblTiempo = new JLabel("Tiempo: 0 s");
+        lblScore = new JLabel("Puntaje: 0");
 
-        // Panel inferior
-        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         panelInferior.add(btnComenzar);
+        panelInferior.add(btnVerPuntajes);
         panelInferior.add(lblIntentos);
         panelInferior.add(lblTiempo);
+        panelInferior.add(lblScore);
 
-        // Panel principal
         JPanel panelPrincipal = new JPanel(new BorderLayout());
         panelPrincipal.add(tablero, BorderLayout.CENTER);
         panelPrincipal.add(panelInferior, BorderLayout.SOUTH);
@@ -46,6 +56,7 @@ public class JuegoFrm extends JFrame {
                 lblTiempo.setText("Tiempo: " + segundos + " s");
                 if (segundos >= tablero.getTiempoMax()) {
                     timer.stop();
+                    historial.add(new Resultado("Perdió", segundos, tablero.getIntentos()));
                     JOptionPane.showMessageDialog(JuegoFrm.this, "¡Has perdido! Has alcanzado el tiempo máximo.");
                     tablero.setPlay(false);
                 }
@@ -56,7 +67,7 @@ public class JuegoFrm extends JFrame {
     private void iniciarJuego() {
         segundos = 0;
         lblTiempo.setText("Tiempo: 0 s");
-        lblIntentos.setText("Intentos: " + tablero.getIntentos());
+        reiniciarScore();
         tablero.reiniciarIntentos();
         lblIntentos.setText("Intentos: " + tablero.getIntentos());
         tablero.comenzarJuego();
@@ -67,9 +78,28 @@ public class JuegoFrm extends JFrame {
         lblIntentos.setText("Intentos: " + intentos);
         if (intentos >= tablero.getIntentosMax()) {
             timer.stop();
+            historial.add(new Resultado("Perdió", segundos, intentos));
             JOptionPane.showMessageDialog(this, "¡Has perdido! Has alcanzado el número máximo de intentos.");
             tablero.setPlay(false);
         }
+    }
+
+    public void actualizarScore(int puntos) {
+        score += puntos;
+        lblScore.setText("Puntaje: " + score);
+    }
+
+    public void reiniciarScore() {
+        score = 0;
+        lblScore.setText("Puntaje: 0");
+    }
+
+    public int getSegundos() {
+        return segundos;
+    }
+
+    public void registrarGanador(int tiempo, int intentos) {
+        historial.add(new Resultado("Ganó", tiempo, intentos));
     }
 
     public static void main(String[] args) {
