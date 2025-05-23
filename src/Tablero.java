@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 public class Tablero extends JPanel {
-    // array con los nombres de las banderas, 8 en total para 16 pares
+    // array con los nombres de las imagenes, 8 en total para 16 pares
     private String[] band = {"chip-black", "chip-red", "chip-green", "poker", "spades", "hearts", "diamonds", "clubs"};
 
     private int fila = 4;
@@ -73,7 +73,7 @@ public class Tablero extends JPanel {
     }
 
     /**
-     * Inicia juego: llena las casillas con pares de baraja
+     * Inicia juego: llena las casillas con pares de imagenes
      */
     public void comenzarJuego() {
         JOptionPane.showMessageDialog(null, "Juego iniciado, tiene "
