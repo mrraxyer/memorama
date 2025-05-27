@@ -58,10 +58,10 @@ public class Tablero extends JPanel {
         int count = 0;
         for (int i = 1; i <= (fila * col); i++) {
             Casilla p = new Casilla(String.valueOf(i));
-            p.setBandera(band[count]);
+            p.setImagen(band[count]);
             count++;
             count = (count >= band.length) ? 0 : count++;
-            p.showBandera();
+            p.showImagen();
             p.addMouseListener(new juegoMouseListener());
             this.add(p);
         }
@@ -85,14 +85,14 @@ public class Tablero extends JPanel {
 
         for (int i = 0; i < componentes.length; i++) {
             ((Casilla) componentes[i]).congelarImagen(false);
-            ((Casilla) componentes[i]).ocultarBandera();
-            ((Casilla) componentes[i]).setBandera("");
+            ((Casilla) componentes[i]).ocultarImagen();
+            ((Casilla) componentes[i]).setImagen("");
         }
 
         for (int i = 0; i < componentes.length; i++) {
             int n = (int) (Math.random() * (band.length));
             if (!existe(band[n])) {
-                ((Casilla) componentes[i]).setBandera(band[n]);
+                ((Casilla) componentes[i]).setImagen(band[n]);
             } else {
                 i--;
             }
@@ -102,12 +102,12 @@ public class Tablero extends JPanel {
     /**
      * Comprueba si una imagen ya ha sido asignada dos veces
      */
-    private boolean existe(String bandera) {
+    private boolean existe(String imagen) {
         int count = 0;
         Component[] componentes = this.getComponents();
         for (int i = 0; i < componentes.length; i++) {
             if (componentes[i] instanceof Casilla) {
-                if (((Casilla) componentes[i]).getNameBandera().equals(bandera)) {
+                if (((Casilla) componentes[i]).getNameImagen().equals(imagen)) {
                     count++;
                 }
             }
@@ -127,16 +127,16 @@ public class Tablero extends JPanel {
                 if (c == 1) {
                     c1 = (Casilla) e.getSource();
                     if (!c1.isCongelado()) {
-                        c1.showBandera();
-                        System.out.println("Primera Imagen: " + c1.getNameBandera());
+                        c1.showImagen();
+                        System.out.println("Primera Imagen: " + c1.getNameImagen());
                     } else {
                         c = 0;
                     }
                 } else if (c == 2 && !c1.getName().equals(((Casilla) e.getSource()).getName())) {
                     c2 = (Casilla) e.getSource();
                     if (!c2.isCongelado()) {
-                        c2.showBandera();
-                        System.out.println("Segunda Imagen: " + c2.getNameBandera());
+                        c2.showImagen();
+                        System.out.println("Segunda Imagen: " + c2.getNameImagen());
                         Animacion ani = new Animacion(c1, c2);
                         ani.execute();
                     }
@@ -178,7 +178,7 @@ public class Tablero extends JPanel {
         protected Void doInBackground() throws Exception {
             System.out.println("doInBackground: procesando imagenes...");
             Thread.sleep(1000);
-            if (casilla1.getNameBandera().equals(casilla2.getNameBandera())) {
+            if (casilla1.getNameImagen().equals(casilla2.getNameImagen())) {
                 casilla1.congelarImagen(true);
                 casilla2.congelarImagen(true);
                 System.out.println("doInBackground: imagenes son iguales");
@@ -191,8 +191,8 @@ public class Tablero extends JPanel {
                     juegoFrm.registrarGanador(juegoFrm.getSegundos(), intentos);
                 }
             } else {
-                casilla1.ocultarBandera();
-                casilla2.ocultarBandera();
+                casilla1.ocultarImagen();
+                casilla2.ocultarImagen();
                 System.out.println("doInBackground: imagenes no son iguales");
                 intentos++;
                 juegoFrm.actualizarIntentos(intentos);

@@ -8,8 +8,8 @@ public class Casilla extends JLabel{
     private int ancho = 128;
     private int alto = 128;
     private ImageIcon hide = new ImageIcon(getClass().getResource("/img/default.png"));
-    private ImageIcon bandera;
-    private String sBandera = "";
+    private ImageIcon imagen;
+    private String sImagen = "";
     private boolean congelado = false;
 
     /**
@@ -30,16 +30,16 @@ public class Casilla extends JLabel{
     }
 
     /**
-     * Muestra la imagen de la bandera asignada a esta casilla
+     * Muestra la imagen de la imagen asignada a esta casilla
      */
-    public void showBandera() {
-        setIcon(bandera);
+    public void showImagen() {
+        setIcon(imagen);
     }
 
     /**
      * Oculta la bandera
      */
-    public void ocultarBandera() {
+    public void ocultarImagen() {
         if (!congelado) {
             setIcon(hide);
         }
@@ -65,10 +65,10 @@ public class Casilla extends JLabel{
      * Asigna la bandera que contendra la casilla
      * @param name nombre de la bandera
      */
-    public void setBandera(String name) {
-        this.sBandera = name;
+    public void setImagen(String name) {
+        this.sImagen = name;
         if (!name.equals("")) {
-            bandera = new ImageIcon(getClass().getResource("/img/" + name + ".png"));
+            imagen = new ImageIcon(getClass().getResource("/img/" + name + ".png"));
         }
     }
 
@@ -77,7 +77,7 @@ public class Casilla extends JLabel{
      * retorna una cadena vacia
      * @return String
      */
-    public String getNameBandera() {
-        return sBandera;
+    public String getNameImagen() {
+        return sImagen;
     }
 }
